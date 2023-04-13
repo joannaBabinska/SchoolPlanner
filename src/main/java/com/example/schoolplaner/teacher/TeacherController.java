@@ -3,6 +3,9 @@ package com.example.schoolplaner.teacher;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @AllArgsConstructor
 @RestController
@@ -22,7 +25,15 @@ public class TeacherController {
         return ResponseEntity.ok(teacherDto);
 
     }
-//
-//    @PostMapping
-//    ResponseEntity<>
+
+    @PostMapping
+    ResponseEntity<TeacherDto> saveTeacher(@RequestBody TeacherDto teacherDto){
+        TeacherDto savedTeacherDto = teacherService.saveTeacher(teacherDto);
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(savedTeacherDto.getId())
+                .toUri();
+        return ResponseEntity.created(uri).body(savedTeacherDto);
+    }
 }
