@@ -14,4 +14,10 @@ public class TeacherService {
     Optional<Teacher> getTeacherById(Long id) {
         return teacherRepository.findById(id);
     }
+
+    TeacherCreateDto saveTeacher(TeacherCreateDto teacherCreateDto) {
+        Teacher teacher = TeacherDtoMapper.map(teacherCreateDto);
+        Teacher savedTeacher = teacherRepository.save(teacher);
+        return TeacherDtoMapper.map(savedTeacher);
+    }
 }
