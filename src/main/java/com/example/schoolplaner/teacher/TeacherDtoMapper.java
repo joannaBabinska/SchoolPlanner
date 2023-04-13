@@ -1,25 +1,29 @@
 package com.example.schoolplaner.teacher;
 
 public class TeacherDtoMapper {
-    public static Teacher map(TeacherCreateDto teacherCreateDto) {
+    public static Teacher map(TeacherDto teacherDto) {
 
         Teacher teacher = new Teacher();
-        teacher.setFirstName(teacherCreateDto.getFirstName());
-        teacher.setLastName(teacherCreateDto.getLastName());
-        teacher.setDateOfBirth(teacherCreateDto.getDateOfBirth());
-        teacher.setHourlyWage(teacherCreateDto.getHourlyWage());
+        teacher.setFirstName(teacherDto.getFirstName());
+        teacher.setLastName(teacherDto.getLastName());
+        teacher.setEmail(teacherDto.getEmail());
+        teacher.setPhoneNumber(teacherDto.getPhoneNumber());
+        teacher.setDateOfBirth(teacherDto.getDateOfBirth());
+        teacher.setHourlyWage(teacherDto.getHourlyWage());
         return teacher;
     }
 
-    public static TeacherCreateDto map(Teacher teacher) {
+    public static TeacherDto map(Teacher teacher) {
 
-        TeacherCreateDto teacherCreateDto = new TeacherCreateDto();
-        teacherCreateDto.setId(teacher.getId());
-        teacherCreateDto.setFirstName(teacher.getFirstName());
-        teacherCreateDto.setLastName(teacher.getLastName());
-        teacherCreateDto.setDateOfBirth(teacher.getDateOfBirth());
-        teacherCreateDto.setHourlyWage(teacher.getHourlyWage());
-        return teacherCreateDto;
+        TeacherDto teacherDto = new TeacherDto();
+        teacherDto.setId(teacher.getId());
+        teacherDto.setFirstName(teacher.getFirstName());
+        teacherDto.setLastName(teacher.getLastName());
+        teacherDto.setEmail(teacher.getEmail());
+        teacherDto.setPhoneNumber(teacher.getPhoneNumber());
+        teacherDto.setDateOfBirth(teacher.getDateOfBirth());
+        teacherDto.setHourlyWage(teacher.getHourlyWage());
+        return teacherDto;
     }
 
 }

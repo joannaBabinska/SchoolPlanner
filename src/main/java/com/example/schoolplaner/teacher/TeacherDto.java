@@ -5,7 +5,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 @Data
-public class TeacherCreateDto {
+public class TeacherDto {
     private Long id;
     private String firstName;
     private String lastName;
@@ -14,7 +14,7 @@ public class TeacherCreateDto {
     private String email;
     private String phoneNumber;
 
-    public TeacherCreateDto(String firstName, String lastName, LocalDate dateOfBirth, BigDecimal hourlyWage, String email, String phoneNumber) {
+    public TeacherDto(String firstName, String lastName, LocalDate dateOfBirth, BigDecimal hourlyWage, String email, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
@@ -23,6 +23,6 @@ public class TeacherCreateDto {
         this.phoneNumber = phoneNumber;
     }
 
-    public TeacherCreateDto() {
+    public TeacherDto() {
     }
 }

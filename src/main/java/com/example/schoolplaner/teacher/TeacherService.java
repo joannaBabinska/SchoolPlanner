@@ -11,12 +11,14 @@ public class TeacherService {
 
     private final TeacherRepository teacherRepository;
 
-    Optional<Teacher> getTeacherById(Long id) {
-        return teacherRepository.findById(id);
+   TeacherDto getTeacherById(Long id) {
+        Teacher teacher = teacherRepository.findById(id).orElseThrow(TeacherNotFoundException::new);
+        return TeacherDtoMapper.map(teacher);
+
     }
 
-    TeacherCreateDto saveTeacher(TeacherCreateDto teacherCreateDto) {
-        Teacher teacher = TeacherDtoMapper.map(teacherCreateDto);
+    TeacherDto saveTeacher(TeacherDto teacherDto) {
+        Teacher teacher = TeacherDtoMapper.map(teacherDto);
         Teacher savedTeacher = teacherRepository.save(teacher);
         return TeacherDtoMapper.map(savedTeacher);
     }
