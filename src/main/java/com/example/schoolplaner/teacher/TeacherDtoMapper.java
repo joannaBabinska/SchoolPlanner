@@ -10,4 +10,16 @@ public class TeacherDtoMapper {
         teacher.setHourlyWage(teacherCreateDto.getHourlyWage());
         return teacher;
     }
+
+    public static TeacherCreateDto map(Teacher teacher) {
+
+        TeacherCreateDto teacherCreateDto = new TeacherCreateDto();
+        teacherCreateDto.setId(teacher.getId());
+        teacherCreateDto.setFirstName(teacher.getFirstName());
+        teacherCreateDto.setLastName(teacher.getLastName());
+        teacherCreateDto.setDateOfBirth(teacher.getDateOfBirth());
+        teacherCreateDto.setHourlyWage(teacher.getHourlyWage());
+        return teacherCreateDto;
+    }
+
 }

@@ -22,4 +22,7 @@ public class TeacherCreateDto {
         this.email = email;
         this.phoneNumber = phoneNumber;
     }
+
+    public TeacherCreateDto() {
+    }
 }
