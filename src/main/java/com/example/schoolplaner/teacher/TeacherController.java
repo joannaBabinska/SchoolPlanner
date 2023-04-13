@@ -27,8 +27,8 @@ public class TeacherController {
     }
 
     @PostMapping
-    ResponseEntity<TeacherDto> saveTeacher(@RequestBody TeacherDto teacherDto){
-        TeacherDto savedTeacherDto = teacherService.saveTeacher(teacherDto);
+    ResponseEntity<TeacherDto> saveTeacher(@RequestBody TeacherRegistrationDto teacherRegistrationDto){
+        TeacherDto savedTeacherDto = teacherService.saveTeacher(teacherRegistrationDto);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")

@@ -26,4 +26,15 @@ public class TeacherDtoMapper {
         return teacherDto;
     }
 
+    public static Teacher map(TeacherRegistrationDto teacherRegistrationDto) {
+        Teacher teacher = new Teacher();
+        teacher.setFirstName(teacherRegistrationDto.getFirstName());
+        teacher.setLastName(teacherRegistrationDto.getLastName());
+        teacher.setEmail(teacherRegistrationDto.getEmail());
+        teacher.setPhoneNumber(teacherRegistrationDto.getPhoneNumber());
+        teacher.setDateOfBirth(teacherRegistrationDto.getDateOfBirth());
+        teacher.setHourlyWage(teacherRegistrationDto.getHourlyWage());
+        return teacher;
+    }
+
 }

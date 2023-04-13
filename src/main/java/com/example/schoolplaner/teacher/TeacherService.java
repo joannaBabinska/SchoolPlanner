@@ -3,8 +3,6 @@ package com.example.schoolplaner.teacher;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @AllArgsConstructor
 public class TeacherService {
@@ -17,8 +15,8 @@ public class TeacherService {
 
     }
 
-    TeacherDto saveTeacher(TeacherDto teacherDto) {
-        Teacher teacher = TeacherDtoMapper.map(teacherDto);
+    TeacherDto saveTeacher(TeacherRegistrationDto teacherRegistrationDto) {
+        Teacher teacher = TeacherDtoMapper.map(teacherRegistrationDto);
         Teacher savedTeacher = teacherRepository.save(teacher);
         return TeacherDtoMapper.map(savedTeacher);
     }
