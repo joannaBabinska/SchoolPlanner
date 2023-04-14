@@ -1,5 +1,7 @@
 package com.example.schoolplaner.teacher;
 
+import com.example.schoolplaner.teacher.exception.EmailExistException;
+import com.example.schoolplaner.teacher.exception.TeacherNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +20,7 @@ public class TeacherController {
     ResponseEntity<TeacherDto> getTeacherById(@PathVariable Long id) {
         TeacherDto teacherDto;
         try {
-             teacherDto = teacherService.getTeacherById(id);
+            teacherDto = teacherService.getTeacherById(id);
         } catch (TeacherNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
@@ -27,13 +29,18 @@ public class TeacherController {
     }
 
     @PostMapping
-    ResponseEntity<TeacherDto> saveTeacher(@RequestBody TeacherRegistrationDto teacherRegistrationDto){
-        TeacherDto savedTeacherDto = teacherService.saveTeacher(teacherRegistrationDto);
-        URI uri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(savedTeacherDto.getId())
-                .toUri();
-        return ResponseEntity.created(uri).body(savedTeacherDto);
+    ResponseEntity<?> saveTeacher(@RequestBody TeacherRegistrationDto teacherRegistrationDto) {
+        try {
+            TeacherDto savedTeacherDto = teacherService.saveTeacher(teacherRegistrationDto);
+            URI uri = ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(savedTeacherDto.getId())
+                    .toUri();
+            return ResponseEntity.created(uri).body(savedTeacherDto);
+
+        } catch (EmailExistException e) {
+            return ResponseEntity.badRequest().body("A user with this email address already exists");
+        }
     }
 }
