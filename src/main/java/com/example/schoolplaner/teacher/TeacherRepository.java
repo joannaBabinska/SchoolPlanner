@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface TeacherRepository extends CrudRepository<Teacher,Long> {
 
     Optional<Teacher> findAllByEmail(String email);
+
+    List<Teacher> findAll();
 }

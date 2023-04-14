@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -41,6 +42,17 @@ public class TeacherController {
 
         } catch (EmailExistException e) {
             return ResponseEntity.badRequest().body("A user with this email address already exists");
+        }
+    }
+
+    @GetMapping
+    ResponseEntity<List<TeacherDto>> getAllTeachers() {
+        List<TeacherDto> TeachersDto = teacherService.getAllTeacher();
+
+        if (TeachersDto.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(TeachersDto);
         }
     }
 }

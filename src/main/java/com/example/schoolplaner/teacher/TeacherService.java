@@ -5,6 +5,8 @@ import com.example.schoolplaner.teacher.exception.TeacherNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class TeacherService {
@@ -27,6 +29,15 @@ public class TeacherService {
             Teacher savedTeacher = teacherRepository.save(teacher);
             return TeacherDtoMapper.map(savedTeacher);
         }
+    }
+
+    List<TeacherDto> getAllTeacher(){
+        return teacherRepository.findAll()
+                .stream()
+                .map(TeacherDtoMapper::map)
+                .toList();
+
+
     }
 
 }
