@@ -1,13 +1,14 @@
-package com.example.schoolplaner.teacher;
+package com.example.schoolplanner.teacher;
 
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface TeacherRepository extends CrudRepository<Teacher,Long> {
 
-    Optional<Teacher> findAllByEmail(String email);
+    boolean existsByEmail(String email);
 
     List<Teacher> findAll();
+
+
 }
