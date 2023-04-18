@@ -19,13 +19,13 @@ public class TeacherService {
     private final TeacherRepository teacherRepository;
 
     TeacherDto getTeacherById(Long id) {
-        Teacher teacher = teacherRepository.findById(id).orElseThrow(TeacherNotFoundException::new);
+        Teacher teacher = teacherRepository.findById(id).orElseThrow(() -> new TeacherNotFoundException(id));
         return TeacherDtoMapper.map(teacher);
     }
 
     TeacherDto saveTeacher(TeacherRegistrationDto teacherRegistrationDto) {
         if (emailIsAlreadyTaken(teacherRegistrationDto)) {
-            throw new EmailExistException();
+            throw new EmailExistException(teacherRegistrationDto.getEmail());
         }
             Teacher teacher = TeacherDtoMapper.map(teacherRegistrationDto);
             Teacher savedTeacher = teacherRepository.save(teacher);

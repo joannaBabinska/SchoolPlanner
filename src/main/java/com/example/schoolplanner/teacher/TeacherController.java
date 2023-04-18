@@ -35,7 +35,6 @@ public class TeacherController {
 
     @PostMapping
     ResponseEntity<?> saveTeacher(@Valid @RequestBody TeacherRegistrationDto teacherRegistrationDto) {
-//        try {
             TeacherDto savedTeacherDto = teacherService.saveTeacher(teacherRegistrationDto);
             URI uri = ServletUriComponentsBuilder
                     .fromCurrentRequest()
@@ -43,10 +42,6 @@ public class TeacherController {
                     .buildAndExpand(savedTeacherDto.getId())
                     .toUri();
             return ResponseEntity.created(uri).body(savedTeacherDto);
-
-//        } catch (EmailExistException e) {
-//            return ResponseEntity.badRequest().body("A user with this email address already exists");
-//        }
     }
 
     @GetMapping
@@ -73,16 +68,13 @@ public class TeacherController {
 
     @ExceptionHandler(EmailExistException.class)
     public ResponseEntity<String> handle(EmailExistException ex) {
-        ex.getMessage();
-
-        return ResponseEntity.badRequest().body("A user with this email address already exists");
+        return ResponseEntity.badRequest().body(ex.getMessage());
     }
+
+
 
     @ExceptionHandler(TeacherNotFoundException.class)
     public ResponseEntity<String> handle(TeacherNotFoundException ex) {
-        ex.getMessage();
-//        ex.getId();
-
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 
