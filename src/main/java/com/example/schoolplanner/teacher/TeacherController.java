@@ -81,7 +81,7 @@ public class TeacherController {
     @ExceptionHandler(TeacherNotFoundException.class)
     public ResponseEntity<String> handle(TeacherNotFoundException ex) {
         ex.getMessage();
-        ex.getId();
+//        ex.getId();
 
         return ResponseEntity.badRequest().body(ex.getMessage());
     }

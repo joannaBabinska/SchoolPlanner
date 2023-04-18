@@ -15,8 +15,4 @@ public class TeacherDto {
     private BigDecimal hourlyWage;
     private String email;
     private String phoneNumber;
-
-
-    public TeacherDto() {
-    }
 }

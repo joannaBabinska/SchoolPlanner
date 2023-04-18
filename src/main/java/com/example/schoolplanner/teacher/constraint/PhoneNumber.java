@@ -14,7 +14,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = PhoneNumberValidator.class)
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RUNTIME)
-public @interface PhoneNumberConstraint {
+public @interface PhoneNumber {
 
     String  message() default "Invalid phone number";
     Class<?>[] groups() default {};
