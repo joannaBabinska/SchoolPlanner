@@ -2,6 +2,7 @@ package com.example.schoolplanner.teacher;
 
 import com.example.schoolplanner.teacher.dto.TeacherDto;
 import com.example.schoolplanner.teacher.dto.TeacherDtoMapper;
+import com.example.schoolplanner.teacher.dto.TeacherNamesDto;
 import com.example.schoolplanner.teacher.dto.TeacherRegistrationDto;
 import com.example.schoolplanner.teacher.exception.EmailExistException;
 import com.example.schoolplanner.teacher.exception.TeacherNotFoundException;
@@ -9,7 +10,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -43,13 +48,14 @@ public class TeacherService {
                 .toList();
     }
 
-//    List<TeacherNamesDto> getAllTeacherNames() {
-//        return teacherRepository.findAll()
-//                .stream()
-//                .map((t) -> new TeacherNamesDto(t.getFirstName(),t.getLastName()))
-//                .map(a -> Arrays.sort(a , new TeacherNamesDto.TeacherNameComparator()))
-//                .collect(Collectors.toList());
-//    }
+    List<TeacherNamesDto> getAllTeacherNames() {
+        List<TeacherNamesDto> allNames = new java.util.ArrayList<>(teacherRepository.findAll()
+                .stream()
+                .map((t) -> new TeacherNamesDto(t.getFirstName(), t.getLastName()))
+                .toList());
+        Collections.sort(allNames);
+        return allNames;
+    }
 
     private boolean emailIsAlreadyTaken(TeacherRegistrationDto teacherRegistrationDto) {
         return teacherRepository.existsByEmail(teacherRegistrationDto.getEmail());

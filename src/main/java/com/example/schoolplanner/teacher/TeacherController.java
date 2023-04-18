@@ -1,6 +1,7 @@
 package com.example.schoolplanner.teacher;
 
 import com.example.schoolplanner.teacher.dto.TeacherDto;
+import com.example.schoolplanner.teacher.dto.TeacherNamesDto;
 import com.example.schoolplanner.teacher.dto.TeacherRegistrationDto;
 import com.example.schoolplanner.teacher.exception.EmailExistException;
 import com.example.schoolplanner.teacher.exception.TeacherNotFoundException;
@@ -35,13 +36,13 @@ public class TeacherController {
 
     @PostMapping
     ResponseEntity<?> saveTeacher(@Valid @RequestBody TeacherRegistrationDto teacherRegistrationDto) {
-            TeacherDto savedTeacherDto = teacherService.saveTeacher(teacherRegistrationDto);
-            URI uri = ServletUriComponentsBuilder
-                    .fromCurrentRequest()
-                    .path("/{id}")
-                    .buildAndExpand(savedTeacherDto.getId())
-                    .toUri();
-            return ResponseEntity.created(uri).body(savedTeacherDto);
+        TeacherDto savedTeacherDto = teacherService.saveTeacher(teacherRegistrationDto);
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(savedTeacherDto.getId())
+                .toUri();
+        return ResponseEntity.created(uri).body(savedTeacherDto);
     }
 
     @GetMapping
@@ -55,22 +56,17 @@ public class TeacherController {
         }
     }
 
-//    @GetMapping("/names")
-//    ResponseEntity<?> getAllTeachersLastNames() {
-//        List<TeacherNamesDto> allTeacherNames = teacherService.getAllTeacherNames();
-//
-//        if (allTeacherNames.isEmpty()) {
-//            return ResponseEntity.notFound().build();
-//        } else {
-//            return ResponseEntity.ok(allTeacherNames);
-//        }
-//    }
+    @GetMapping("/names")
+    ResponseEntity<?> getAllTeachersNames() {
+        List<TeacherNamesDto> allTeacherNames = teacherService.getAllTeacherNames();
+        return ResponseEntity.ok(allTeacherNames);
+
+    }
 
     @ExceptionHandler(EmailExistException.class)
     public ResponseEntity<String> handle(EmailExistException ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
-
 
 
     @ExceptionHandler(TeacherNotFoundException.class)
