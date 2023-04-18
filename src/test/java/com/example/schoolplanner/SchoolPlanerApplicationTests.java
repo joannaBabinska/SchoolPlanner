@@ -1,4 +1,4 @@
-package com.example.schoolplaner;
+package com.example.schoolplanner;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
