@@ -24,7 +24,6 @@ public class TeacherController {
 
     private final TeacherService teacherService;
 
-
     @GetMapping("/{id}")
     ResponseEntity<TeacherDto> getTeacherById(@PathVariable Long id) {
         TeacherDto teacherDto = teacherService.getTeacherById(id);
@@ -47,14 +46,12 @@ public class TeacherController {
     ResponseEntity<List<TeacherDto>> getAllTeachers() {
         List<TeacherDto> TeachersDto = teacherService.getAllTeacher();
             return ResponseEntity.ok(TeachersDto);
-
     }
 
     @GetMapping("/names")
     ResponseEntity<List<TeacherNamesDto>> getAllTeachersNames() {
         List<TeacherNamesDto> allTeacherNames = teacherService.getAllTeacherNames();
         return ResponseEntity.ok(allTeacherNames);
-
     }
 
     @DeleteMapping("/{id}")

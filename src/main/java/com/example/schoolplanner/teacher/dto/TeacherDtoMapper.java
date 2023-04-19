@@ -2,17 +2,6 @@ package com.example.schoolplanner.teacher.dto;
 import com.example.schoolplanner.teacher.Teacher;
 
 public class TeacherDtoMapper {
-    public static Teacher map(TeacherDto teacherDto) {
-        return Teacher.builder()
-                .firstName(teacherDto.getFirstName())
-                .lastName(teacherDto.getLastName())
-                .email(teacherDto.getEmail())
-                .phoneNumber(teacherDto.getPhoneNumber())
-                .dateOfBirth(teacherDto.getDateOfBirth())
-                .hourlyWage(teacherDto.getHourlyWage())
-                .build();
-    }
-
     public static Teacher map(TeacherUpdateDto teacherUpdateDto) {
         return Teacher.builder()
                 .firstName(teacherUpdateDto.getFirstName())
@@ -58,5 +47,4 @@ public class TeacherDtoMapper {
                 .hourlyWage(teacherRegistrationDto.getHourlyWage())
                 .build();
     }
-
 }

@@ -3,7 +3,6 @@ package com.example.schoolplanner.teacher.constraint;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-
 public class PhoneNumberValidator implements ConstraintValidator<PhoneNumber, String> {
     //todo testy
     @Override
