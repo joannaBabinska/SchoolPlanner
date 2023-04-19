@@ -27,7 +27,7 @@ public class TeacherService {
     }
 
     TeacherDto saveTeacher(TeacherRegistrationDto teacherRegistrationDto) {
-        if (emailIsAlreadyTaken(teacherRegistrationDto)) {
+        if (emailIsAlreadyTaken(teacherRegistrationDto.getEmail())) {
             throw new EmailExistException(teacherRegistrationDto.getEmail());
         }
         Teacher teacher = TeacherDtoMapper.map(teacherRegistrationDto);
@@ -60,7 +60,7 @@ public class TeacherService {
 
     public TeacherDto replaceTeacher(TeacherRegistrationDto teacherRegistrationDto, Long id) {
         teacherRepository.findById(id).orElseThrow(() -> new TeacherNotFoundException(id));
-        if(emailIsAlreadyTaken(teacherRegistrationDto)) {
+        if(emailIsAlreadyTaken(teacherRegistrationDto.getEmail())) {
             throw new EmailExistException(teacherRegistrationDto.getEmail());
         }
 
@@ -76,11 +76,8 @@ public class TeacherService {
         teacherRepository.save(teacher);
     }
 
-    private boolean emailIsAlreadyTaken(TeacherRegistrationDto teacherRegistrationDto) {
-        return teacherRepository.existsByEmail(teacherRegistrationDto.getEmail());
-    }
-    private boolean emailIsAlreadyTaken(Teacher teacher) {
-        return teacherRepository.existsByEmail(teacher.getEmail());
+    private boolean emailIsAlreadyTaken(String email) {
+        return teacherRepository.existsByEmail(email);
     }
 
 
