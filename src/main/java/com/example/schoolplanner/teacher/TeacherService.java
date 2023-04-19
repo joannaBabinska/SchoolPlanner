@@ -30,13 +30,12 @@ public class TeacherService {
         if (emailIsAlreadyTaken(teacherRegistrationDto)) {
             throw new EmailExistException(teacherRegistrationDto.getEmail());
         }
-            Teacher teacher = TeacherDtoMapper.map(teacherRegistrationDto);
-            Teacher savedTeacher = teacherRepository.save(teacher);
-            log.info("New teacher saved with id: {}", savedTeacher.getId());
+        Teacher teacher = TeacherDtoMapper.map(teacherRegistrationDto);
+        Teacher savedTeacher = teacherRepository.save(teacher);
+        log.info("New teacher saved with id: {}", savedTeacher.getId());
 //            log.debug(savedTeacher.toString());
-            return TeacherDtoMapper.map(savedTeacher);
+        return TeacherDtoMapper.map(savedTeacher);
     }
-
 
 
     List<TeacherDto> getAllTeacher() {
@@ -55,7 +54,7 @@ public class TeacherService {
         return allNames;
     }
 
-    public void deleteTeacherById(Long id){
+    public void deleteTeacherById(Long id) {
         teacherRepository.deleteById(id);
     }
 
@@ -63,7 +62,15 @@ public class TeacherService {
         return teacherRepository.existsByEmail(teacherRegistrationDto.getEmail());
     }
 
+    public TeacherDto replaceTeacher(TeacherRegistrationDto teacherRegistrationDto, Long id) {
+        teacherRepository.findById(id).orElseThrow(() -> new TeacherNotFoundException(id));
+
+        Teacher teacherToUpload = TeacherDtoMapper.map(teacherRegistrationDto);
+        teacherToUpload.setId(id);
+        Teacher savedTeacher = teacherRepository.save(teacherToUpload);
+        return TeacherDtoMapper.map(savedTeacher);
 
 
+    }
 }
 

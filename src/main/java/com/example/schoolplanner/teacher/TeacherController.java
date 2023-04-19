@@ -31,7 +31,7 @@ public class TeacherController {
     }
 
     @PostMapping
-    ResponseEntity<?> saveTeacher(@Valid @RequestBody TeacherRegistrationDto teacherRegistrationDto) {
+    ResponseEntity<TeacherDto> saveTeacher(@Valid @RequestBody TeacherRegistrationDto teacherRegistrationDto) {
         TeacherDto savedTeacherDto = teacherService.saveTeacher(teacherRegistrationDto);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -53,7 +53,7 @@ public class TeacherController {
     }
 
     @GetMapping("/names")
-    ResponseEntity<?> getAllTeachersNames() {
+    ResponseEntity<List<TeacherNamesDto>> getAllTeachersNames() {
         List<TeacherNamesDto> allTeacherNames = teacherService.getAllTeacherNames();
         return ResponseEntity.ok(allTeacherNames);
 
@@ -63,6 +63,12 @@ public class TeacherController {
     ResponseEntity<?> deleteTeacherById(@PathVariable Long id) {
         teacherService.deleteTeacherById(id);
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}")
+    ResponseEntity<TeacherDto> replaceTeacher(@PathVariable Long id, @RequestBody TeacherRegistrationDto teacherRegistrationDto) {
+        TeacherDto teacherDto = teacherService.replaceTeacher(teacherRegistrationDto, id);
+       return ResponseEntity.ok(teacherDto);
     }
 
     @ExceptionHandler(EmailExistException.class)
