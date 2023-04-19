@@ -11,6 +11,8 @@ import com.github.fge.jsonpatch.mergepatch.JsonMergePatch;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -48,8 +50,12 @@ public class TeacherService {
         return teacherRepository.findAll()
                 .stream()
                 .map(TeacherNamesDto::fromEntity)
-                .sorted()
+                .sorted(getComparator())
                 .toList();
+    }
+
+    private static Comparator<TeacherNamesDto> getComparator() {
+        return Comparator.comparing(TeacherNamesDto::getLastName).thenComparing(TeacherNamesDto::getFirstName);
     }
 
     public void deleteTeacherById(Long id) {
