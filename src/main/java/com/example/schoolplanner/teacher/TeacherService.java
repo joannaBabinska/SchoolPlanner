@@ -11,10 +11,7 @@ import com.github.fge.jsonpatch.mergepatch.JsonMergePatch;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.Collections;
 import java.util.List;
-
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +37,6 @@ public class TeacherService {
         return TeacherDtoMapper.map(savedTeacher);
     }
 
-
     List<TeacherDto> getAllTeacher() {
         return teacherRepository.findAll()
                 .stream()
@@ -61,8 +57,8 @@ public class TeacherService {
     }
 
     public TeacherDto replaceTeacher(TeacherRegistrationDto teacherRegistrationDto, Long id) {
-        teacherRepository.findById(id).orElseThrow(() -> new TeacherNotFoundException(id));
-        if(emailIsAlreadyTaken(teacherRegistrationDto.getEmail())) {
+        Teacher teacher = teacherRepository.findById(id).orElseThrow(() -> new TeacherNotFoundException(id));
+        if (updatedEmailIsAlreadyTaken(teacherRegistrationDto.getEmail(), teacher.getEmail())) {
             throw new EmailExistException(teacherRegistrationDto.getEmail());
         }
 
@@ -76,7 +72,7 @@ public class TeacherService {
         Teacher teacher = teacherRepository.findById(id).orElseThrow(() -> new TeacherNotFoundException(id));
         TeacherUpdateDto teacherUpdateDto = TeacherDtoMapper.mapToTeacherUpdateDto(teacher);
         TeacherUpdateDto updatedTeacher = applyPath(teacherUpdateDto, jsonMergePatch);
-        if(!updatedTeacher.getEmail().equals(teacher.getEmail()) && emailIsAlreadyTaken(updatedTeacher.getEmail())){
+        if (updatedEmailIsAlreadyTaken(teacher.getEmail(), updatedTeacher.getEmail())) {
             throw new EmailExistException(updatedTeacher.getEmail());
         }
         Teacher teacherToSave = TeacherDtoMapper.map(updatedTeacher);
@@ -94,6 +90,10 @@ public class TeacherService {
         JsonNode jsonNode = objectMapper.valueToTree(teacherUpdateDto);
         JsonNode teacherPathNode = jsonMergePatch.apply(jsonNode);
         return objectMapper.treeToValue(teacherPathNode, TeacherUpdateDto.class);
+    }
+
+    private boolean updatedEmailIsAlreadyTaken(String email, String updatedEmail) {
+        return emailIsAlreadyTaken(updatedEmail) && !updatedEmail.equals(email);
     }
 
 }
