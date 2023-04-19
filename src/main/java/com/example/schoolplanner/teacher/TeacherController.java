@@ -46,12 +46,8 @@ public class TeacherController {
     @GetMapping
     ResponseEntity<List<TeacherDto>> getAllTeachers() {
         List<TeacherDto> TeachersDto = teacherService.getAllTeacher();
-
-        if (TeachersDto.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        } else {
             return ResponseEntity.ok(TeachersDto);
-        }
+
     }
 
     @GetMapping("/names")

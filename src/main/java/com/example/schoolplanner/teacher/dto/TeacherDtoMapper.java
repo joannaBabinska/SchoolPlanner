@@ -14,18 +14,6 @@ public class TeacherDtoMapper {
                 .hourlyWage(teacherDto.getHourlyWage())
                 .build();
     }
-
-    public static TeacherUpdateDto mapToTeacherUpdateDto(TeacherDto teacherDto) {
-
-        return TeacherUpdateDto.builder()
-                .firstName(teacherDto.getFirstName())
-                .lastName(teacherDto.getLastName())
-                .email(teacherDto.getEmail())
-                .phoneNumber(teacherDto.getPhoneNumber())
-                .dateOfBirth(teacherDto.getDateOfBirth())
-                .hourlyWage(teacherDto.getHourlyWage())
-                .build();
-    }
     public static Teacher map(TeacherUpdateDto teacherUpdateDto) {
 
         return Teacher.builder()
@@ -35,6 +23,18 @@ public class TeacherDtoMapper {
                 .phoneNumber(teacherUpdateDto.getPhoneNumber())
                 .dateOfBirth(teacherUpdateDto.getDateOfBirth())
                 .hourlyWage(teacherUpdateDto.getHourlyWage())
+                .build();
+    }
+
+    public static TeacherUpdateDto mapToTeacherUpdateDto(Teacher teacher) {
+
+        return TeacherUpdateDto.builder()
+                .firstName(teacher.getFirstName())
+                .lastName(teacher.getLastName())
+                .email(teacher.getEmail())
+                .phoneNumber(teacher.getPhoneNumber())
+                .dateOfBirth(teacher.getDateOfBirth())
+                .hourlyWage(teacher.getHourlyWage())
                 .build();
     }
 

@@ -49,12 +49,11 @@ public class TeacherService {
     }
 
     List<TeacherNamesDto> getAllTeacherNames() {
-        List<TeacherNamesDto> allNames = new java.util.ArrayList<>(teacherRepository.findAll()
+        return teacherRepository.findAll()
                 .stream()
-                .map((t) -> new TeacherNamesDto(t.getFirstName(), t.getLastName()))
-                .toList());
-        Collections.sort(allNames);
-        return allNames;
+                .map(TeacherNamesDto::fromEntity)
+                .sorted()
+                .toList();
     }
 
     public void deleteTeacherById(Long id) {
@@ -74,15 +73,16 @@ public class TeacherService {
     }
 
     public void updateTeacher(Long id, JsonMergePatch jsonMergePatch) throws JsonPatchException, JsonProcessingException {
-        TeacherDto teacherDto = getTeacherById(id);
-        TeacherUpdateDto teacherUpdateDto = TeacherDtoMapper.mapToTeacherUpdateDto(teacherDto);
+        Teacher teacher = teacherRepository.findById(id).orElseThrow(() -> new TeacherNotFoundException(id));
+        TeacherUpdateDto teacherUpdateDto = TeacherDtoMapper.mapToTeacherUpdateDto(teacher);
         TeacherUpdateDto updatedTeacher = applyPath(teacherUpdateDto, jsonMergePatch);
-        if(!updatedTeacher.getEmail().equals(teacherDto.getEmail()) && emailIsAlreadyTaken(updatedTeacher.getEmail())){
+        if(!updatedTeacher.getEmail().equals(teacher.getEmail()) && emailIsAlreadyTaken(updatedTeacher.getEmail())){
             throw new EmailExistException(updatedTeacher.getEmail());
         }
-        Teacher teacher = TeacherDtoMapper.map(updatedTeacher);
+        Teacher teacherToSave = TeacherDtoMapper.map(updatedTeacher);
         teacher.setId(id);
-        teacherRepository.save(teacher);
+
+        teacherRepository.save(teacherToSave);
     }
 
     private boolean emailIsAlreadyTaken(String email) {

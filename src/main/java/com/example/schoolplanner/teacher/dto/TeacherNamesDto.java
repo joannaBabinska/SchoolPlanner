@@ -1,5 +1,6 @@
 package com.example.schoolplanner.teacher.dto;
 
+import com.example.schoolplanner.teacher.Teacher;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -15,6 +16,10 @@ public class TeacherNamesDto implements Comparable<TeacherNamesDto> {
     @Override
     public int compareTo(TeacherNamesDto otherTeacher) {
         return this.lastName.compareTo(otherTeacher.getLastName());
+    }
+
+    public static TeacherNamesDto fromEntity(Teacher teacher) {
+        return new TeacherNamesDto(teacher.getFirstName(), teacher.getLastName());
     }
 }
 
