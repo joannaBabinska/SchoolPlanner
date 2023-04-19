@@ -1,18 +1,13 @@
 package com.example.schoolplanner.teacher;
-
 import com.example.schoolplanner.teacher.dto.TeacherDto;
 import com.example.schoolplanner.teacher.dto.TeacherNamesDto;
 import com.example.schoolplanner.teacher.dto.TeacherRegistrationDto;
-import com.example.schoolplanner.teacher.dto.TeacherUpdateDto;
 import com.example.schoolplanner.teacher.exception.EmailExistException;
 import com.example.schoolplanner.teacher.exception.TeacherNotFoundException;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatchException;
 import com.github.fge.jsonpatch.mergepatch.JsonMergePatch;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -85,9 +80,6 @@ public class TeacherController {
         return ResponseEntity.noContent().build();
     }
 
-
-
-
     @ExceptionHandler(JsonPatchException.class)
     public  ResponseEntity<String> handle(JsonPatchException ex) {
         return ResponseEntity.internalServerError().build();
@@ -102,7 +94,6 @@ public class TeacherController {
     public ResponseEntity<String> handle(EmailExistException ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
-
 
     @ExceptionHandler(TeacherNotFoundException.class)
     public ResponseEntity<String> handle(TeacherNotFoundException ex) {

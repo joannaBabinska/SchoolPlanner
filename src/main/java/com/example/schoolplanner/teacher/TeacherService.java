@@ -77,6 +77,9 @@ public class TeacherService {
         TeacherDto teacherDto = getTeacherById(id);
         TeacherUpdateDto teacherUpdateDto = TeacherDtoMapper.mapToTeacherUpdateDto(teacherDto);
         TeacherUpdateDto updatedTeacher = applyPath(teacherUpdateDto, jsonMergePatch);
+        if(!updatedTeacher.getEmail().equals(teacherDto.getEmail()) && emailIsAlreadyTaken(updatedTeacher.getEmail())){
+            throw new EmailExistException(updatedTeacher.getEmail());
+        }
         Teacher teacher = TeacherDtoMapper.map(updatedTeacher);
         teacher.setId(id);
         teacherRepository.save(teacher);
