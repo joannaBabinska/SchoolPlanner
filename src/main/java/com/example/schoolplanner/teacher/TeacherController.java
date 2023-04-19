@@ -59,6 +59,12 @@ public class TeacherController {
 
     }
 
+    @DeleteMapping("/{id}")
+    ResponseEntity<?> deleteTeacherById(@PathVariable Long id) {
+        teacherService.deleteTeacherById(id);
+        return ResponseEntity.ok().build();
+    }
+
     @ExceptionHandler(EmailExistException.class)
     public ResponseEntity<String> handle(EmailExistException ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());

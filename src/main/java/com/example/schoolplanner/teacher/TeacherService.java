@@ -10,11 +10,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
@@ -57,9 +55,15 @@ public class TeacherService {
         return allNames;
     }
 
+    public void deleteTeacherById(Long id){
+        teacherRepository.deleteById(id);
+    }
+
     private boolean emailIsAlreadyTaken(TeacherRegistrationDto teacherRegistrationDto) {
         return teacherRepository.existsByEmail(teacherRegistrationDto.getEmail());
     }
+
+
 
 }
 
