@@ -7,6 +7,7 @@ import com.example.schoolplanner.teacher.exception.EmailExistException;
 import com.example.schoolplanner.teacher.exception.TeacherNotFoundException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -15,21 +16,16 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
-@RequestMapping("/teacher")
+@RequestMapping("/teachers")
 public class TeacherController {
 
     private final TeacherService teacherService;
 
     @GetMapping("/{id}")
     ResponseEntity<TeacherDto> getTeacherById(@PathVariable Long id) {
-        TeacherDto teacherDto;
-        try {
-            teacherDto = teacherService.getTeacherById(id);
-        } catch (TeacherNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+        TeacherDto teacherDto = teacherService.getTeacherById(id);
         return ResponseEntity.ok(teacherDto);
 
     }
@@ -71,7 +67,7 @@ public class TeacherController {
 
     @ExceptionHandler(TeacherNotFoundException.class)
     public ResponseEntity<String> handle(TeacherNotFoundException ex) {
-        return ResponseEntity.badRequest().body(ex.getMessage());
+        return ResponseEntity.notFound().build();
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
