@@ -1,11 +1,13 @@
 package com.example.schoolplanner.teacher;
 
-import com.example.schoolplanner.teacher.dto.TeacherDto;
-import com.example.schoolplanner.teacher.dto.TeacherDtoMapper;
-import com.example.schoolplanner.teacher.dto.TeacherNamesDto;
-import com.example.schoolplanner.teacher.dto.TeacherRegistrationDto;
+import com.example.schoolplanner.teacher.dto.*;
 import com.example.schoolplanner.teacher.exception.EmailExistException;
 import com.example.schoolplanner.teacher.exception.TeacherNotFoundException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.fge.jsonpatch.JsonPatchException;
+import com.github.fge.jsonpatch.mergepatch.JsonMergePatch;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ import java.util.List;
 public class TeacherService {
 
     private final TeacherRepository teacherRepository;
+    private final ObjectMapper objectMapper;
 
     TeacherDto getTeacherById(Long id) {
         Teacher teacher = teacherRepository.findById(id).orElseThrow(() -> new TeacherNotFoundException(id));
@@ -70,9 +73,12 @@ public class TeacherService {
         return TeacherDtoMapper.map(savedTeacher);
     }
 
-    public void updateTeacher(TeacherDto teacherDto){
-        Teacher teacher = TeacherDtoMapper.map(teacherDto);
-        teacher.setId(teacherDto.getId());
+    public void updateTeacher(Long id, JsonMergePatch jsonMergePatch) throws JsonPatchException, JsonProcessingException {
+        TeacherDto teacherDto = getTeacherById(id);
+        TeacherUpdateDto teacherUpdateDto = TeacherDtoMapper.mapToTeacherUpdateDto(teacherDto);
+        TeacherUpdateDto updatedTeacher = applyPath(teacherUpdateDto, jsonMergePatch);
+        Teacher teacher = TeacherDtoMapper.map(updatedTeacher);
+        teacher.setId(id);
         teacherRepository.save(teacher);
     }
 
@@ -80,6 +86,12 @@ public class TeacherService {
         return teacherRepository.existsByEmail(email);
     }
 
+    private TeacherUpdateDto applyPath(TeacherUpdateDto teacherUpdateDto, JsonMergePatch jsonMergePatch)
+            throws JsonPatchException, JsonProcessingException {
+        JsonNode jsonNode = objectMapper.valueToTree(teacherUpdateDto);
+        JsonNode teacherPathNode = jsonMergePatch.apply(jsonNode);
+        return objectMapper.treeToValue(teacherPathNode, TeacherUpdateDto.class);
+    }
 
 }
 

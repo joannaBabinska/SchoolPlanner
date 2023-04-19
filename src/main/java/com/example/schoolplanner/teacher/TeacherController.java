@@ -3,6 +3,7 @@ package com.example.schoolplanner.teacher;
 import com.example.schoolplanner.teacher.dto.TeacherDto;
 import com.example.schoolplanner.teacher.dto.TeacherNamesDto;
 import com.example.schoolplanner.teacher.dto.TeacherRegistrationDto;
+import com.example.schoolplanner.teacher.dto.TeacherUpdateDto;
 import com.example.schoolplanner.teacher.exception.EmailExistException;
 import com.example.schoolplanner.teacher.exception.TeacherNotFoundException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -27,7 +28,7 @@ import java.util.List;
 public class TeacherController {
 
     private final TeacherService teacherService;
-    private final ObjectMapper objectMapper;
+
 
     @GetMapping("/{id}")
     ResponseEntity<TeacherDto> getTeacherById(@PathVariable Long id) {
@@ -79,21 +80,13 @@ public class TeacherController {
     }
 
     @PatchMapping("/{id}")
-    ResponseEntity<?> updateTeacher(@PathVariable Long id, @RequestBody JsonMergePatch jsonMergePatch)
-            throws JsonPatchException, JsonProcessingException {
-        TeacherDto teacherDto = teacherService.getTeacherById(id);
-        TeacherDto updateTeacherDTo = applyPath(teacherDto, jsonMergePatch);
-        teacherService.updateTeacher(updateTeacherDTo);
+    ResponseEntity<?> updateTeacher(@PathVariable Long id, @RequestBody JsonMergePatch jsonMergePatch) throws JsonPatchException, JsonProcessingException {
+        teacherService.updateTeacher(id,jsonMergePatch);
         return ResponseEntity.noContent().build();
     }
 
 
-    private TeacherDto applyPath(TeacherDto teacherDto, JsonMergePatch jsonMergePatch)
-            throws JsonPatchException, JsonProcessingException {
-        JsonNode jsonNode = objectMapper.valueToTree(teacherDto);
-        JsonNode teacherPathNode = jsonMergePatch.apply(jsonNode);
-        return objectMapper.treeToValue(teacherPathNode, TeacherDto.class);
-    }
+
 
     @ExceptionHandler(JsonPatchException.class)
     public  ResponseEntity<String> handle(JsonPatchException ex) {
