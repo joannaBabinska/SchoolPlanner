@@ -18,5 +18,8 @@ public class TeacherNamesDto {
         return new TeacherNamesDto(teacher.getFirstName(), teacher.getLastName());
     }
 
+    public static Comparator<TeacherNamesDto> lastNameFirstNameComparator() {
+        return Comparator.comparing(TeacherNamesDto::getLastName).thenComparing(TeacherNamesDto::getFirstName);
+    }
 }
 

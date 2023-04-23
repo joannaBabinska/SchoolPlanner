@@ -50,13 +50,10 @@ public class TeacherService {
         return teacherRepository.findAll()
                 .stream()
                 .map(TeacherNamesDto::fromEntity)
-                .sorted(getComparator())
+                .sorted(TeacherNamesDto.lastNameFirstNameComparator())
                 .toList();
     }
 
-    private static Comparator<TeacherNamesDto> getComparator() {
-        return Comparator.comparing(TeacherNamesDto::getLastName).thenComparing(TeacherNamesDto::getFirstName);
-    }
 
     public void deleteTeacherById(Long id) {
         teacherRepository.deleteById(id);
